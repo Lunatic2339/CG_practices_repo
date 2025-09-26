@@ -1,7 +1,0 @@
-﻿  main.cpp
-main.obj : error LNK2019: __imp_glutMainLoopmain 함수에서 참조되는 확인할 수 없는 외부 기호
-main.obj : error LNK2019: __imp_glutDisplayFuncmain 함수에서 참조되는 확인할 수 없는 외부 기호
-main.obj : error LNK2019: __imp___glutInitWithExitglutInit_ATEXIT_HACK 함수에서 참조되는 확인할 수 없는 외부 기호
-main.obj : error LNK2019: __imp___glutCreateWindowWithExitglutCreateWindow_ATEXIT_HACK 함수에서 참조되는 확인할 수 없는 외부 기호
-C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\freeglut\lib\freeglut.lib : warning LNK4272: 'x86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
-C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\CG_practices\CG_practices_repo\CG_practice1\x64\Debug\CG_practice1.exe : fatal error LNK1120: 4개의 확인할 수 없는 외부 참조입니다.
