@@ -1,0 +1,2 @@
+﻿  main.cpp
+C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\CG_practices\CG_practices_repo\CG_practice1\CG_practice1\main.cpp(1,10): error C1083: 포함 파일을 열 수 없습니다. 'GL/glut.h': No such file or directory
