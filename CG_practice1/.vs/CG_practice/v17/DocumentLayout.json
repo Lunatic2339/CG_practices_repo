@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CG_practice11.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|solutionrelative:CG_practice1\\CG_practice11.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CG_practice4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|solutionrelative:CG_practice1\\CG_practice4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CG_practice10.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|solutionrelative:CG_practice1\\CG_practice10.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CG_practice11.cpp",
+              "DocumentMoniker": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CG_practice11.cpp",
+              "RelativeDocumentMoniker": "CG_practice1\\CG_practice11.cpp",
+              "ToolTip": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CG_practice11.cpp",
+              "RelativeToolTip": "CG_practice1\\CG_practice11.cpp",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAADwAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-22T10:12:16.375Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CG_practice4.cpp",
+              "DocumentMoniker": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CG_practice4.cpp",
+              "RelativeDocumentMoniker": "CG_practice1\\CG_practice4.cpp",
+              "ToolTip": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CG_practice4.cpp",
+              "RelativeToolTip": "CG_practice1\\CG_practice4.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-22T10:12:12.134Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CG_practice10.cpp",
+              "DocumentMoniker": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CG_practice10.cpp",
+              "RelativeDocumentMoniker": "CG_practice1\\CG_practice10.cpp",
+              "ToolTip": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CG_practice10.cpp",
+              "RelativeToolTip": "CG_practice1\\CG_practice10.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-22T10:04:20.218Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
