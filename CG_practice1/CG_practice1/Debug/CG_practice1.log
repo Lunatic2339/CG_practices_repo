@@ -1,11 +1,5 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(538,5): warning MSB8028: 중간 디렉터리(Debug\)에 다른 프로젝트(CG_practice1.vcxproj)에서 공유하는 파일이 포함되어 있습니다.  이로 인해 잘못된 정리 및 다시 빌드 동작이 수행될 수 있습니다.
-  CG_practice6.cpp
-C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\CG_practices\CG_practices_repo\CG_practice1\CG_practice1\CG_practice6.cpp(18,46): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\CG_practices\CG_practices_repo\CG_practice1\CG_practice1\CG_practice6.cpp(18,22): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\CG_practices\CG_practices_repo\CG_practice1\CG_practice1\CG_practice6.cpp(19,50): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\CG_practices\CG_practices_repo\CG_practice1\CG_practice1\CG_practice6.cpp(19,22): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\CG_practices\CG_practices_repo\CG_practice1\CG_practice1\CG_practice6.cpp(20,55): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\CG_practices\CG_practices_repo\CG_practice1\CG_practice1\CG_practice6.cpp(20,26): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\CG_practices\CG_practices_repo\CG_practice1\CG_practice1\CG_practice6.cpp(21,50): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\CG_practices\CG_practices_repo\CG_practice1\CG_practice1\CG_practice6.cpp(21,26): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Maze_Game.cpp
+C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\CG_practices\CG_practices_repo\CG_practice1\CG_practice1\Maze_Game.cpp(115,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\CG_practices\CG_practices_repo\CG_practice1\CG_practice1\Maze_Game.cpp(122,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   CG_practice1.vcxproj -> C:\Users\anthony\Desktop\Univ Assingments\2025\Computer_Graphics\CG_practices\CG_practices_repo\CG_practice1\Debug\CG_practice.exe

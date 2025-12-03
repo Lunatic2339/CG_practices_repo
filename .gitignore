@@ -1,1 +1,12 @@
-*.vsidx
+# Visual Studio 임시 파일 무시
+.vs/
+Debug/
+Release/
+x64/
+*.opendb
+*.db
+*.ipch
+*.obj
+*.exe
+*.pdb
+*.ilk
