@@ -45,7 +45,7 @@ float cameraYaw = 0.0f, cameraPitch = 0.0f;
 
 int winW = 1200, winH = 800;
 const int N = 10;
-enum { FACE_FRONT = 0, FACE_BACK, FACE_RIGHT, FACE_LEFT, FACE_TOP, FACE_BOTTOM };
+enum { FACE_BACK =0, FACE_FRONT = 1, FACE_RIGHT =2 , FACE_LEFT =3, FACE_TOP = 4, FACE_BOTTOM = 5 };
 int map[6][N][N] = { 0 };
 
 // ----------------------------------------------------------
@@ -148,21 +148,28 @@ void loadModel(const char* filename) {
 }
 
 void initMap() {
-    // 맵 초기화 & 아이템 배치
-    for (int f = 0; f < 6; f++) {
-        for (int i = 0; i < N; i++) {
-            map[f][0][i] = 1; map[f][N - 1][i] = 1;
-            map[f][i][0] = 1; map[f][i][N - 1] = 1;
-        }
-    }
-    // 장애물
-    map[FACE_TOP][2][2] = 1; map[FACE_RIGHT][3][3] = 1;
-    map[FACE_LEFT][5][5] = 1; map[FACE_BACK][7][7] = 1;
+    // 테두리 벽 (이건 N-1을 쓰므로 자동으로 잘 됨)
+    for (int i = 0; i < N; i++) {
 
-    // 아이템 배치 (맵 배열에는 0으로 두되, 별도 리스트 관리)
-    items.push_back({ FACE_FRONT, N / 2, N / 2, true, 0.0f });
-    items.push_back({ FACE_BOTTOM, 4, 4, true, 0.0f });
-    items.push_back({ FACE_BACK, 2, 2, true, 0.0f });
+        map[1][0][i] = 1;
+        map[1][N - 1][i] = 1;
+        map[1][i][0] = 1;
+        map[1][i][N - 1] = 1;
+
+    }
+
+
+    for (int i = 0; i < N; i++) {
+
+        if (i == N / 2) continue;
+        map[5][0][i] = 1;
+        map[5][N - 1][i] = 1;
+        map[5][i][0] = 1;
+        map[5][i][N - 1] = 1;
+
+    }
+
+
 }
 
 // ----------------------------------------------------------
@@ -221,6 +228,142 @@ void drawTexturedWall(int f, int r, int c) {
     glEnd();
     glDisable(GL_TEXTURE_2D);
 }
+
+
+// ----------------------------------------------------------
+// [이웃 체크] 사용자 정의 도면 기준 연결 로직 (Verified)
+// *주의: 5번(Bottom)과 4번(Top)을 제외한 옆면(0~3)들은 
+//  모두 머리(Row 0)가 5번 면을 향하도록 배치됨.
+// ----------------------------------------------------------
+int getNeighborValue(int f, int r, int c) {
+    // 1. 범위 안쪽이면 현재 맵 값 리턴
+    if (r >= 0 && r < N && c >= 0 && c < N) {
+        return map[f][r][c];
+    }
+
+    int targetF = f;
+    int tr = r;
+    int tc = c;
+
+    // 2. 경계면 연결 로직
+    switch (f) {
+
+        // =======================================================
+        // [중심] 5번 면 (Bottom / Floor)
+        // =======================================================
+    case FACE_BOTTOM:
+        if (r < 0) { // 위쪽 -> 1번(Back)의 머리 (180도 회전)
+            targetF = FACE_BACK; tr = 0; tc = N - 1 - c;
+        }
+        else if (r >= N) { // 아래쪽 -> 0번(Front)의 머리 (정방향)
+            targetF = FACE_FRONT; tr = 0; tc = c;
+        }
+        else if (c < 0) { // 왼쪽 -> 3번(Left)의 머리 (시계 90도 회전)
+            targetF = FACE_LEFT; tr = 0; tc = r;
+        }
+        else if (c >= N) { // 오른쪽 -> 2번(Right)의 머리 (반시계 90도 회전)
+            targetF = FACE_RIGHT; tr = 0; tc = N - 1 - r;
+        }
+        break;
+
+        // =======================================================
+        // [옆면] 1번 면 (Back)
+        // =======================================================
+    case FACE_BACK:
+        if (r < 0) { // 위쪽 -> 5번(Bottom)의 위 (180도)
+            targetF = FACE_BOTTOM; tr = 0; tc = N - 1 - c;
+        }
+        else if (r >= N) { // 아래쪽 -> 4번(Top)의 아래 (180도)
+            targetF = FACE_TOP; tr = N - 1; tc = N - 1 - c;
+        }
+        else if (c < 0) { // 왼쪽 -> 2번(Right)의 오른쪽 (그대로)
+            targetF = FACE_RIGHT; tr = r; tc = N - 1;
+        }
+        else if (c >= N) { // 오른쪽 -> 3번(Left)의 왼쪽 (그대로)
+            targetF = FACE_LEFT; tr = r; tc = 0;
+        }
+        break;
+
+        // =======================================================
+        // [옆면] 0번 면 (Front)
+        // =======================================================
+    case FACE_FRONT:
+        if (r < 0) { // 위쪽 -> 5번(Bottom)의 아래 (정방향)
+            targetF = FACE_BOTTOM; tr = N - 1; tc = c;
+        }
+        else if (r >= N) { // 아래쪽 -> 4번(Top)의 위 (정방향)
+            targetF = FACE_TOP; tr = 0; tc = c;
+        }
+        else if (c < 0) { // 왼쪽 -> 3번(Left)의 오른쪽 (그대로)
+            targetF = FACE_LEFT; tr = r; tc = N - 1;
+        }
+        else if (c >= N) { // 오른쪽 -> 2번(Right)의 왼쪽 (그대로)
+            targetF = FACE_RIGHT; tr = r; tc = 0;
+        }
+        break;
+
+        // =======================================================
+        // [옆면] 3번 면 (Left)
+        // =======================================================
+    case FACE_LEFT:
+        if (r < 0) { // 위쪽 -> 5번(Bottom)의 왼쪽 (반시계 90도)
+            targetF = FACE_BOTTOM; tr = c; tc = 0;
+        }
+        else if (r >= N) { // 아래쪽 -> 4번(Top)의 왼쪽 (반시계 90도?)
+            targetF = FACE_TOP; tr = N - 1 - c; tc = 0;
+        }
+        else if (c < 0) { // 왼쪽 -> 1번(Back)의 오른쪽
+            targetF = FACE_BACK; tr = r; tc = N - 1;
+        }
+        else if (c >= N) { // 오른쪽 -> 0번(Front)의 왼쪽
+            targetF = FACE_FRONT; tr = r; tc = 0;
+        }
+        break;
+
+        // =======================================================
+        // [옆면] 2번 면 (Right)
+        // =======================================================
+    case FACE_RIGHT:
+        if (r < 0) { // 위쪽 -> 5번(Bottom)의 오른쪽 (시계 90도)
+            targetF = FACE_BOTTOM; tr = N - 1 - c; tc = N - 1;
+        }
+        else if (r >= N) { // 아래쪽 -> 4번(Top)의 오른쪽 (시계 90도?)
+            targetF = FACE_TOP; tr = c; tc = N - 1;
+        }
+        else if (c < 0) { // 왼쪽 -> 0번(Front)의 오른쪽
+            targetF = FACE_FRONT; tr = r; tc = N - 1;
+        }
+        else if (c >= N) { // 오른쪽 -> 1번(Back)의 왼쪽
+            targetF = FACE_BACK; tr = r; tc = 0;
+        }
+        break;
+
+        // =======================================================
+        // [천장] 4번 면 (Top / Ceiling)
+        // =======================================================
+    case FACE_TOP:
+        if (r < 0) { // 위쪽 -> 0번(Front)의 아래 (정방향)
+            targetF = FACE_FRONT; tr = N - 1; tc = c;
+        }
+        else if (r >= N) { // 아래쪽 -> 1번(Back)의 아래 (180도)
+            targetF = FACE_BACK; tr = N - 1; tc = N - 1 - c;
+        }
+        else if (c < 0) { // 왼쪽 -> 3번(Left)의 아래 (반시계 90도)
+            targetF = FACE_LEFT; tr = N - 1; tc = N - 1 - r;
+        }
+        else if (c >= N) { // 오른쪽 -> 2번(Right)의 아래 (시계 90도)
+            targetF = FACE_RIGHT; tr = N - 1; tc = r;
+        }
+        break;
+    }
+
+    // 인덱스 범위 안전 장치
+    if (tr < 0) tr = 0; if (tr >= N) tr = N - 1;
+    if (tc < 0) tc = 0; if (tc >= N) tc = N - 1;
+
+    return map[targetF][tr][tc];
+}
+
 
 // ----------------------------------------------------------
 // [스마트 월] 얇은 벽 조각 그리기 헬퍼 함수
@@ -283,54 +426,50 @@ void drawWallSegment(int f, float u_s, float u_e, float v_s, float v_e) {
 // 주변(상하좌우)에 벽이 있으면 그쪽으로 '팔'을 뻗습니다.
 // ----------------------------------------------------------
 void drawSmartWall(int f, int r, int c) {
-    // 1. 기본 좌표 범위 (0.0 ~ 1.0)
+    // 1. 좌표 계산 (동일)
     float u1 = (float)c / N;
     float u2 = (float)(c + 1) / N;
     float v1 = (float)r / N;
     float v2 = (float)(r + 1) / N;
 
-    // 2. 얇은 벽 두께 설정 (셀 크기의 20% 정도)
     float cellW = u2 - u1;
     float cellH = v2 - v1;
-    float thickW = cellW * 0.2f; // 가로 두께
-    float thickH = cellH * 0.2f; // 세로 두께
+    float thickW = cellW * 0.2f;
+    float thickH = cellH * 0.2f;
 
-    // 중심부 범위
-    float uc_s = u1 + (cellW - thickW) / 2.0f; // Center Start
-    float uc_e = u1 + (cellW + thickW) / 2.0f; // Center End
+    float uc_s = u1 + (cellW - thickW) / 2.0f;
+    float uc_e = u1 + (cellW + thickW) / 2.0f;
     float vc_s = v1 + (cellH - thickH) / 2.0f;
     float vc_e = v1 + (cellH + thickH) / 2.0f;
 
-    // 3. 연결 여부 확인 (이웃 체크)
-    // 테두리(0, N-1)는 무조건 연결된 것으로 간주 (큐브 모서리 끊김 방지)
-    bool connL = (c == 0) || (map[f][r][c - 1] == 1);
-    bool connR = (c == N - 1) || (map[f][r][c + 1] == 1);
-    bool connD = (r == 0) || (map[f][r - 1][c] == 1); // Down (v 작음)
-    bool connU = (r == N - 1) || (map[f][r + 1][c] == 1); // Up (v 큼)
+    // 2. [수정됨] 연결 여부 확인
+    // 무조건 true가 아니라, 진짜 벽이 있을 때만 true가 됩니다.
+    bool connL = (getNeighborValue(f, r, c - 1) == 1);
+    bool connR = (getNeighborValue(f, r, c + 1) == 1);
+    bool connU = (getNeighborValue(f, r - 1, c) == 1); // 배열 인덱스 주의 (r-1이 위쪽, r+1이 아래쪽 - 텍스처 좌표계랑 반대일 수 있음)
+    bool connD = (getNeighborValue(f, r + 1, c) == 1);
 
-    // 텍스처 설정
+    // *주의*: 배열 인덱스 r은 0이 위, N-1이 아래일 수도 있고 반대일 수도 있습니다.
+    // drawSmartWall의 v1, v2 로직상 v가 커질수록 아래로 간다면:
+    // v1(작음) -> r (작음? 큼?)
+    // initMap에서 map[f][0][i]를 윗줄(Top edge)로 짰다면 r-1이 위쪽(Up)이 맞습니다.
+    // 하지만 drawWallSegment에서는 v1(Top?) v2(Bottom?) 좌표계를 씁니다.
+    // 
+    // 만약 실행해보고 위아래가 끊기면 connU/connD의 r-1, r+1을 서로 바꾸세요.
+    // 일단은 위 코드(r-1이 위, r+1이 아래)로 해보겠습니다.
+
+    // 텍스처 및 색상 설정 (동일)
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texWall);
-    // 붓 씻기 (색상 초기화)
     GLfloat white[] = { 1,1,1,1 };
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, white);
 
-    // 4. 조각 그리기 (5-Part Rendering)
-
-    // (1) 중심 기둥 (Center Pillar) - 항상 그림
-    drawWallSegment(f, uc_s, uc_e, vc_s, vc_e);
-
-    // (2) 왼쪽 날개 (Left Wing)
+    // 3. 그리기 (동일)
+    drawWallSegment(f, uc_s, uc_e, vc_s, vc_e); // 중심
     if (connL) drawWallSegment(f, u1, uc_s, vc_s, vc_e);
-
-    // (3) 오른쪽 날개 (Right Wing)
     if (connR) drawWallSegment(f, uc_e, u2, vc_s, vc_e);
-
-    // (4) 아래쪽 날개 (Down Wing)
-    if (connD) drawWallSegment(f, uc_s, uc_e, v1, vc_s);
-
-    // (5) 위쪽 날개 (Up Wing)
-    if (connU) drawWallSegment(f, uc_s, uc_e, vc_e, v2);
+    if (connU) drawWallSegment(f, uc_s, uc_e, v1, vc_s); // Up (v 작은 쪽)
+    if (connD) drawWallSegment(f, uc_s, uc_e, vc_e, v2); // Down (v 큰 쪽)
 
     glDisable(GL_TEXTURE_2D);
 }
