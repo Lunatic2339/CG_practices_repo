@@ -55,9 +55,26 @@ float cameraPitch = 0.0f; // 상하 회전 (X축 기준)
 int winW = 1200;
 int winH = 800;
 
-// 미로 맵 데이터 (20x20 격자)
-// 0: 빈 공간, 1: 벽, 9: 도자기 모델
-int map[20][20] = { 0 };
+// 미로 맵 데이터
+// 큐브의 6개 면을 숫자로 정의 (이해하기 쉽게)
+enum {
+    FACE_FRONT = 0,
+    FACE_BACK,
+    FACE_RIGHT,
+    FACE_LEFT,
+    FACE_TOP,
+    FACE_BOTTOM
+};
+
+// 한 면의 크기 (N x N)
+const int N = 10;
+
+// 맵 데이터: [면6개][행N][열N]
+// 기존 20x20 하나를 쓰는 대신, 10x10짜리 6개를 씁니다.
+int map[6][N][N] = { 0 };
+
+// 행성의 반지름 (큐브의 중심에서 면까지의 거리)
+float planetRadius = 40.0f;
 
 // ----------------------------------------------------------
 // [유틸리티 함수 1] 법선 벡터(Normal Vector) 계산
@@ -115,16 +132,164 @@ void loadModel(const char* filename) {
 // [유틸리티 함수 3] 맵 데이터 초기화
 // ----------------------------------------------------------
 void initMap() {
-    // 테두리에 벽(1) 세우기
-    for (int i = 0; i < 20; i++) {
-        map[0][i] = 1; map[19][i] = 1;
-        map[i][0] = 1; map[i][19] = 1;
+    // 모든 면 초기화 (테두리 벽 세우기)
+    for (int f = 0; f < 6; f++) {
+        for (int i = 0; i < N; i++) {
+            // 각 면의 테두리에 벽(1) 세우기
+            map[f][0][i] = 1;
+            map[f][N - 1][i] = 1;
+            map[f][i][0] = 1;
+            map[f][i][N - 1] = 1;
+        }
     }
-    // 중간에 장애물 몇 개 배치
-    map[5][5] = 1; map[5][6] = 1; map[6][5] = 1;
 
-    // 목표물(도자기) 배치 (9번)
-    map[10][10] = 9;
+    // [테스트] 면 구분을 위해 특정 위치에 표시
+    map[FACE_FRONT][N / 2][N / 2] = 9; // 앞면에 도자기(모델)
+    map[FACE_TOP][2][2] = 1;       // 윗면에 벽
+    map[FACE_RIGHT][3][3] = 1;     // 오른쪽에 벽
+}
+
+
+// (u, v)는 0.0 ~ 1.0 사이의 비율 좌표
+Point3D getCubePoint(int faceID, float u, float v, float radius) {
+    Point3D p = { 0, 0, 0 };
+
+    // 범위 -1.0 ~ +1.0 으로 변환 (중심 기준)
+    float x = (u - 0.5f) * 2.0f * radius;
+    float y = (v - 0.5f) * 2.0f * radius;
+    float z = radius; // 면은 중심에서 반지름만큼 떨어져 있음
+
+    // 면의 방향에 따라 회전시킴
+    switch (faceID) {
+    case FACE_FRONT:  // 앞면 (Z+)
+        p = { x, y, z };
+        break;
+    case FACE_BACK:   // 뒷면 (Z-) -> 180도 회전
+        p = { -x, y, -z };
+        break;
+    case FACE_RIGHT:  // 오른쪽 (X+) -> Y축 -90도 회전
+        p = { z, y, -x };
+        break;
+    case FACE_LEFT:   // 왼쪽 (X-) -> Y축 +90도 회전
+        p = { -z, y, x };
+        break;
+    case FACE_TOP:    // 윗면 (Y+) -> X축 -90도 회전
+        p = { x, z, -y };
+        break;
+    case FACE_BOTTOM: // 아랫면 (Y-) -> X축 +90도 회전
+        p = { x, -z, y };
+        break;
+    }
+    return p;
+}
+
+
+// ----------------------------------------------------------
+// [곡면 벽 그리기] 
+// 큐브 대신, 구의 곡률에 맞춰 휘어진 육면체(Wedge)를 그립니다.
+// r: 구의 반지름 (바닥 위치)
+// h: 벽의 높이 (안쪽으로 얼마나 튀어나올지)
+// theta, phi: 현재 위치의 각도
+// step: 한 칸의 각도 크기 (예: 6도)
+// ----------------------------------------------------------
+// ----------------------------------------------------------
+// [곡면 벽 그리기 - 수정판]
+// 법선 벡터(Normal)를 자동으로 계산하여 빛 반사를 정상화함
+// ----------------------------------------------------------
+void drawCurvedWall(float r, float h, float theta, float phi, float step) {
+    float deg2rad = M_PI / 180.0f;
+
+    // 1. 각도 범위 계산
+    float t1 = theta - (step / 2.0f);
+    float t2 = theta + (step / 2.0f);
+    float p1 = phi - (step / 2.0f);
+    float p2 = phi + (step / 2.0f);
+
+    t1 *= deg2rad; t2 *= deg2rad;
+    p1 *= deg2rad; p2 *= deg2rad;
+
+    // 2. 반지름 설정
+    // r1: 바닥 (Radius 40) - 묻혀있는 쪽
+    // r2: 꼭대기 (Radius 37) - 플레이어 눈에 보이는 쪽
+    float r1 = r;
+    float r2 = r - h;
+
+    // 3. 8개의 꼭짓점 좌표 계산 (구면 좌표계 공식)
+    Point3D v[8];
+
+    // [바닥면 4점] (벽의 뿌리 부분)
+    v[0] = { r1 * sin(t1) * cos(p1), r1 * sin(p1), r1 * cos(t1) * cos(p1) }; // 좌하
+    v[1] = { r1 * sin(t2) * cos(p1), r1 * sin(p1), r1 * cos(t2) * cos(p1) }; // 우하
+    v[2] = { r1 * sin(t2) * cos(p2), r1 * sin(p2), r1 * cos(t2) * cos(p2) }; // 우상
+    v[3] = { r1 * sin(t1) * cos(p2), r1 * sin(p2), r1 * cos(t1) * cos(p2) }; // 좌상
+
+    // [윗면 4점] (벽의 천장 부분 - 플레이어가 주로 보는 면)
+    v[4] = { r2 * sin(t1) * cos(p1), r2 * sin(p1), r2 * cos(t1) * cos(p1) }; // 좌하
+    v[5] = { r2 * sin(t2) * cos(p1), r2 * sin(p1), r2 * cos(t2) * cos(p1) }; // 우하
+    v[6] = { r2 * sin(t2) * cos(p2), r2 * sin(p2), r2 * cos(t2) * cos(p2) }; // 우상
+    v[7] = { r2 * sin(t1) * cos(p2), r2 * sin(p2), r2 * cos(t1) * cos(p2) }; // 좌상
+
+    // 4. 육면체 그리기 (각 면마다 법선 계산 필수!)
+    glBegin(GL_QUADS);
+
+    // [중요] 법선 벡터를 계산하기 위한 임시 변수
+    Point3D n;
+
+    // (1) 윗면 (Top) - 가장 밝게 보여야 함
+    // 순서: v4 -> v5 -> v6 -> v7
+    n = calculateNormal(v[4], v[5], v[6]); // 법선 자동 계산
+    glNormal3f(n.x, n.y, n.z);             // 적용
+    glVertex3f(v[4].x, v[4].y, v[4].z);
+    glVertex3f(v[5].x, v[5].y, v[5].z);
+    glVertex3f(v[6].x, v[6].y, v[6].z);
+    glVertex3f(v[7].x, v[7].y, v[7].z);
+
+    // (2) 앞면 (Front) - 위도선 방향
+    // 순서: v0 -> v1 -> v5 -> v4
+    n = calculateNormal(v[0], v[1], v[5]);
+    glNormal3f(n.x, n.y, n.z);
+    glVertex3f(v[0].x, v[0].y, v[0].z);
+    glVertex3f(v[1].x, v[1].y, v[1].z);
+    glVertex3f(v[5].x, v[5].y, v[5].z);
+    glVertex3f(v[4].x, v[4].y, v[4].z);
+
+    // (3) 뒷면 (Back)
+    // 순서: v1 -> v2 -> v6 -> v5
+    n = calculateNormal(v[1], v[2], v[6]);
+    glNormal3f(n.x, n.y, n.z);
+    glVertex3f(v[1].x, v[1].y, v[1].z);
+    glVertex3f(v[2].x, v[2].y, v[2].z);
+    glVertex3f(v[6].x, v[6].y, v[6].z);
+    glVertex3f(v[5].x, v[5].y, v[5].z);
+
+    // (4) 왼쪽면 (Left)
+    // 순서: v3 -> v0 -> v4 -> v7
+    n = calculateNormal(v[3], v[0], v[4]);
+    glNormal3f(n.x, n.y, n.z);
+    glVertex3f(v[3].x, v[3].y, v[3].z);
+    glVertex3f(v[0].x, v[0].y, v[0].z);
+    glVertex3f(v[4].x, v[4].y, v[4].z);
+    glVertex3f(v[7].x, v[7].y, v[7].z);
+
+    // (5) 오른쪽면 (Right)
+    // 순서: v2 -> v1 -> v0 -> v3 (X) -> v2 -> v3 -> v7 -> v6
+    n = calculateNormal(v[2], v[3], v[7]);
+    glNormal3f(n.x, n.y, n.z);
+    glVertex3f(v[2].x, v[2].y, v[2].z);
+    glVertex3f(v[3].x, v[3].y, v[3].z);
+    glVertex3f(v[7].x, v[7].y, v[7].z);
+    glVertex3f(v[6].x, v[6].y, v[6].z);
+
+    // (6) 바닥면 (Bottom) - 파묻혀서 안 보이지만 계산함
+    // 순서: v3 -> v2 -> v1 -> v0
+    n = calculateNormal(v[3], v[2], v[1]);
+    glNormal3f(n.x, n.y, n.z);
+    glVertex3f(v[3].x, v[3].y, v[3].z);
+    glVertex3f(v[2].x, v[2].y, v[2].z);
+    glVertex3f(v[1].x, v[1].y, v[1].z);
+    glVertex3f(v[0].x, v[0].y, v[0].z);
+
+    glEnd();
 }
 
 // ----------------------------------------------------------
@@ -132,91 +297,91 @@ void initMap() {
 // 구체, 벽, 모델 등 월드 전체를 그립니다.
 // isWireMode: true면 구를 철사(Wireframe)로 그림 (절대 시점용)
 // ----------------------------------------------------------
+// ----------------------------------------------------------
+// [수정된 장면 그리기] 색상 버그 완벽 수정
+// ----------------------------------------------------------
 void drawScene(bool isWireMode) {
-    // [중요] 구의 안쪽 면에도 빛이 반사되도록 설정 (Two Side Lighting)
-    // 기본적으로 OpenGL은 바깥 면만 계산하는데, 우리는 구 내부에 있으므로 필수 설정입니다.
+    // 1. 양면 조명 설정
     glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 1.0);
-    glDisable(GL_CULL_FACE); // 뒷면 숨기기 기능을 꺼서 안쪽 면이 보이게 함
+    glDisable(GL_CULL_FACE);
 
-    // 1. 거대한 구(행성 벽) 그리기
+    // 2. [바닥] 거대한 구 그리기
     if (isWireMode) {
-        // 절대 시점(오른쪽 아래)에서는 내부가 보여야 하므로 선으로만 그림
-        glDisable(GL_LIGHTING);      // 선이 잘 보이게 조명 끄기
-        glColor3f(0.3f, 0.3f, 0.3f); // 진한 회색 선
+        glDisable(GL_LIGHTING);
+        glColor3f(0.3f, 0.3f, 0.3f);
         glutWireSphere(planetRadius, 30, 30);
-        glEnable(GL_LIGHTING);       // 다시 조명 켜기
+        glEnable(GL_LIGHTING);
     }
     else {
-        // 1인칭 시점에서는 꽉 찬 면으로 그림
-        GLfloat wallDiff[] = { 0.4f, 0.4f, 0.4f, 1.0f }; // 회색 재질
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, wallDiff);
+        // [바닥 색상] 어두운 남색
+        GLfloat wallColor[] = { 0.1f, 0.1f, 0.3f, 1.0f };
+
+        // [중요 수정] 앞면/뒷면 모두, 그리고 주변광/분산광 모두 설정
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, wallColor);
+
         glutSolidSphere(planetRadius, 50, 50);
     }
 
-    // 2. 맵 데이터를 읽어서 벽과 모델 배치
-    float angleStep = 6.0f; // 맵 한 칸당 6도씩 차지
+    float angleStep = 6.0f;
 
     for (int r = 0; r < 20; r++) {
         for (int c = 0; c < 20; c++) {
-            if (map[r][c] == 0) continue; // 빈칸은 패스
+            if (map[r][c] == 0) continue;
 
-            // 현재 그릴 물체의 위치 계산 및 이동
-            glPushMatrix(); // 현재 좌표계 저장
-            // (1) 구면 좌표계 변환: 배열 인덱스(r, c) -> 각도(theta, phi)
-            float theta = (c - 10) * angleStep;
-            float phi = (r - 10) * angleStep;
-
-            // (2) 회전: 중심에서 해당 각도만큼 회전
-            glRotatef(theta, 0.0f, 1.0f, 0.0f); // 경도 회전
-            glRotatef(phi, 1.0f, 0.0f, 0.0f);   // 위도 회전
-
-            // (3) 이동: 회전 후 반지름만큼 바깥으로 밀어냄 -> 구 표면에 도달
-            glTranslatef(0.0f, 0.0f, planetRadius);
-
-            // A. 벽 그리기 (map == 1)
+            // CASE A: 곡면 벽 (Curved Wall)
             if (map[r][c] == 1) {
-                glTranslatef(0.0f, 0.0f, -1.5f); // 구 안쪽으로 살짝 파묻히게 조정
+                // [벽 색상] 형광 하늘색 (Cyan)
+                GLfloat boxColor[] = { 0.0f, 1.0f, 1.0f, 1.0f };
 
-                GLfloat boxCol[] = { 0.0f, 0.8f, 1.0f, 1.0f }; // 청록색(Cyan)
-                glMaterialfv(GL_FRONT, GL_DIFFUSE, boxCol);
+                // [핵심 수정] 여기서도 GL_FRONT_AND_BACK을 써야 남색이 묻어나지 않음!
+                glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, boxColor);
 
-                glScalef(1.0f, 1.0f, 3.0f); // 위로 길쭉한 직육면체
-                glutSolidCube(1.5f);
+                float theta = (c - 10) * angleStep;
+                float phi = (r - 10) * angleStep;
+
+                drawCurvedWall(planetRadius, 3.0f, theta, phi, angleStep);
             }
-            // B. 도자기 모델 그리기 (map == 9)
+
+            // CASE B: 도자기 모델 (Model)
             else if (map[r][c] == 9) {
-                glTranslatef(0.0f, 0.0f, -2.0f); // 벽보다 좀 더 안쪽으로
-                glRotatef(-90, 1.0f, 0.0f, 0.0f); // 모델을 세우기 위한 회전
-                glScalef(0.005f, 0.005f, 0.005f); // 모델 크기 축소 (데이터에 따라 조절)
+                glPushMatrix();
+                float theta = (c - 10) * angleStep;
+                float phi = (r - 10) * angleStep;
 
-                // 금색 재질 설정
+                glRotatef(theta, 0.0f, 1.0f, 0.0f);
+                glRotatef(phi, 1.0f, 0.0f, 0.0f);
+                glTranslatef(0.0f, 0.0f, planetRadius);
+                glTranslatef(0.0f, 0.0f, -2.0f);
+                glRotatef(-90, 1.0f, 0.0f, 0.0f);
+                glScalef(0.005f, 0.005f, 0.005f);
+
+                // [모델 색상] 금색
                 GLfloat goldDiff[] = { 1.0f, 0.8f, 0.0f, 1.0f };
-                GLfloat goldSpec[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // 반짝이는 하이라이트
-                glMaterialfv(GL_FRONT, GL_DIFFUSE, goldDiff);
-                glMaterialfv(GL_FRONT, GL_SPECULAR, goldSpec);
-                glMaterialf(GL_FRONT, GL_SHININESS, 100.0f); // 광택도
+                GLfloat goldSpec[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-                // 삼각형 하나하나 그리기
+                // 모델도 앞뒤 확실하게 설정
+                glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, goldDiff);
+                glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, goldSpec);
+                glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
+
                 glBegin(GL_TRIANGLES);
                 for (int i = 0; i < faces.size(); i++) {
                     Point3D p1 = vertices[faces[i].v1];
                     Point3D p2 = vertices[faces[i].v2];
                     Point3D p3 = vertices[faces[i].v3];
-
-                    // 빛 반사를 위한 법선 벡터 계산
                     Point3D n = calculateNormal(p1, p2, p3);
                     glNormal3f(n.x, n.y, n.z);
-
                     glVertex3f(p1.x, p1.y, p1.z);
                     glVertex3f(p2.x, p2.y, p2.z);
                     glVertex3f(p3.x, p3.y, p3.z);
                 }
                 glEnd();
+                glPopMatrix();
             }
-            glPopMatrix(); // 좌표계 복구
         }
     }
 }
+
 // ----------------------------------------------------------
 // [시야각 표시 함수] 절대 시점에서 내가 어디를 보는지 노란선으로 그림
 // ----------------------------------------------------------
