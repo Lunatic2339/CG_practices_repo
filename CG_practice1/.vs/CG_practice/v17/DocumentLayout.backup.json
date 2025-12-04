@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\Maze_Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|solutionrelative:CG_practice1\\Maze_Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\SOR_Modeler.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|solutionrelative:CG_practice1\\SOR_Modeler.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\Planet_Inside.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|solutionrelative:CG_practice1\\Planet_Inside.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,27 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Maze_Game.cpp",
-              "DocumentMoniker": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\Maze_Game.cpp",
-              "RelativeDocumentMoniker": "CG_practice1\\Maze_Game.cpp",
-              "ToolTip": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\Maze_Game.cpp",
-              "RelativeToolTip": "CG_practice1\\Maze_Game.cpp",
-              "ViewState": "AgIAAFUAAAAAAAAAAAAAAEIAAAAAAAAAAAAAAA==",
+              "Title": "Planet_Inside.cpp",
+              "DocumentMoniker": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\Planet_Inside.cpp",
+              "RelativeDocumentMoniker": "CG_practice1\\Planet_Inside.cpp",
+              "ToolTip": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\Planet_Inside.cpp",
+              "RelativeToolTip": "CG_practice1\\Planet_Inside.cpp",
+              "ViewState": "AgIAAF8BAAAAAAAAAAAAAHQBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-12-03T11:45:13.181Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SOR_Modeler.cpp",
-              "DocumentMoniker": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\SOR_Modeler.cpp",
-              "RelativeDocumentMoniker": "CG_practice1\\SOR_Modeler.cpp",
-              "ToolTip": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\SOR_Modeler.cpp",
-              "RelativeToolTip": "CG_practice1\\SOR_Modeler.cpp",
-              "ViewState": "AgIAAGgAAAAAAAAAAAAcwHAAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-12-02T15:58:29.147Z",
+              "WhenOpened": "2025-12-04T07:27:18.863Z",
               "EditorCaption": ""
             },
             {
