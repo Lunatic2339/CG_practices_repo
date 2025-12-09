@@ -5,10 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CubePlanet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|solutionrelative:CG_practice1\\CubePlanet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\Maze_Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|solutionrelative:CG_practice1\\Maze_Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,12 +14,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -32,22 +24,14 @@
               "RelativeDocumentMoniker": "CG_practice1\\CubePlanet.cpp",
               "ToolTip": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CubePlanet.cpp",
               "RelativeToolTip": "CG_practice1\\CubePlanet.cpp",
-              "ViewState": "AgIAAI0AAAAAAAAAAAAAAKAAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAMIBAAAAAAAAAAAuwNIBAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-12-04T16:39:07.617Z",
+              "WhenOpened": "2025-12-08T12:57:03.722Z",
               "EditorCaption": ""
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Maze_Game.cpp",
-              "DocumentMoniker": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\Maze_Game.cpp",
-              "RelativeDocumentMoniker": "CG_practice1\\Maze_Game.cpp",
-              "ToolTip": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\Maze_Game.cpp",
-              "RelativeToolTip": "CG_practice1\\Maze_Game.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-12-04T16:39:06.846Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }

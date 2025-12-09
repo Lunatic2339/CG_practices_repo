@@ -58,8 +58,8 @@ int winH = 800;
 // 미로 맵 데이터
 // 큐브의 6개 면을 숫자로 정의 (이해하기 쉽게)
 enum {
-    FACE_FRONT = 0,
-    FACE_BACK,
+    FACE_BACK = 0,
+    FACE_FRONT,
     FACE_RIGHT,
     FACE_LEFT,
     FACE_TOP,
@@ -144,7 +144,7 @@ void initMap() {
     }
 
     // [테스트] 면 구분을 위해 특정 위치에 표시
-    map[FACE_FRONT][N / 2][N / 2] = 9; // 앞면에 도자기(모델)
+    map[FACE_BACK][N / 2][N / 2] = 9; // 앞면에 도자기(모델)
     map[FACE_TOP][2][2] = 1;       // 윗면에 벽
     map[FACE_RIGHT][3][3] = 1;     // 오른쪽에 벽
 }
@@ -161,10 +161,10 @@ Point3D getCubePoint(int faceID, float u, float v, float radius) {
 
     // 면의 방향에 따라 회전시킴
     switch (faceID) {
-    case FACE_FRONT:  // 앞면 (Z+)
+    case FACE_BACK:  // 앞면 (Z+)
         p = { x, y, z };
         break;
-    case FACE_BACK:   // 뒷면 (Z-) -> 180도 회전
+    case FACE_FRONT:   // 뒷면 (Z-) -> 180도 회전
         p = { -x, y, -z };
         break;
     case FACE_RIGHT:  // 오른쪽 (X+) -> Y축 -90도 회전
