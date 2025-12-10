@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\RealCube.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|solutionrelative:CG_practice1\\RealCube.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CubePlanet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{CC4AAF9A-AE9C-43F9-9B4C-FB7CA398AAB6}|CG_practice1\\CG_practice1.vcxproj|solutionrelative:CG_practice1\\CubePlanet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
@@ -14,19 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "CubePlanet.cpp",
               "DocumentMoniker": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CubePlanet.cpp",
               "RelativeDocumentMoniker": "CG_practice1\\CubePlanet.cpp",
               "ToolTip": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\CubePlanet.cpp",
               "RelativeToolTip": "CG_practice1\\CubePlanet.cpp",
-              "ViewState": "AgIAAMIBAAAAAAAAAAAuwNIBAAATAAAAAAAAAA==",
+              "ViewState": "AgIAAGAFAAAAAAAAAAAAAGwFAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-12-08T12:57:03.722Z",
+              "WhenOpened": "2025-12-10T07:31:09.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RealCube.cpp",
+              "DocumentMoniker": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\RealCube.cpp",
+              "RelativeDocumentMoniker": "CG_practice1\\RealCube.cpp",
+              "ToolTip": "C:\\Users\\anthony\\Desktop\\Univ Assingments\\2025\\Computer_Graphics\\CG_practices\\CG_practices_repo\\CG_practice1\\CG_practice1\\RealCube.cpp",
+              "RelativeToolTip": "CG_practice1\\RealCube.cpp",
+              "ViewState": "AgIAAD0BAAAAAAAAAAAAAFkBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-10T06:32:52.631Z",
               "EditorCaption": ""
             },
             {
